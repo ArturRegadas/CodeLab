@@ -9,7 +9,7 @@ Somos todos iguais
 Braços dados ou não
 
 
-<br>
+
 Nas escolas, nas ruas
 
 Campos, construções
@@ -19,7 +19,7 @@ Caminhando e cantando
 E seguindo a canção
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -29,7 +29,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -39,7 +39,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Pelos campos, há fome
 
 Em grandes plantações
@@ -49,7 +49,7 @@ Pelas ruas, marchando
 Indecisos cordões
 
 
-<br>
+
 Ainda fazem da flor
 
 Seu mais forte refrão
@@ -59,7 +59,7 @@ E acreditam nas flores
 Vencendo o canhão
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -69,7 +69,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -79,7 +79,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Há soldados armados
 
 Amados ou não
@@ -89,7 +89,7 @@ Quase todos perdidos
 De armas na mão
 
 
-<br>
+
 Nos quartéis lhes ensinam
 
 Uma antiga lição
@@ -99,7 +99,7 @@ De morrer pela pátria
 E viver sem razão
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -109,7 +109,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -119,7 +119,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Nas escolas, nas ruas
 
 Campos, construções
@@ -129,7 +129,7 @@ Somos todos soldados
 Armados ou não
 
 
-<br>
+
 Caminhando e cantando
 
 E seguindo a canção
@@ -139,7 +139,7 @@ Somos todos iguais
 Braços dados ou não
 
 
-<br>
+
 Os amores na mente
 
 As flores no chão
@@ -149,7 +149,7 @@ A certeza na frente
 A história na mão
 
 
-<br>
+
 Caminhando e cantando
 
 E seguindo a canção
@@ -159,7 +159,7 @@ Aprendendo e ensinando
 Uma nova lição
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -169,7 +169,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -179,7 +179,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Vem, vamos embora
 
 Que esperar não é saber
@@ -189,7 +189,7 @@ Quem sabe faz a hora
 Não espera acontecer
 
 
-<br>
+
 Ficou em segundo lugar no Festival Internacional da Canção de 1968. Teve sua execução proibida durante anos, após tornar-se um hino de resistência do movimento civil e estudantil que fazia oposição à ditadura militar brasileira, e ser censurada. A canção ficou em vigésimo oitavo lugar na lista das 100 Maiores Músicas Brasileiras de todos os tempos pela revista Rolling Stone Brasil.
 
 A classificação da música em segundo lugar, sendo a favorita disparada do público, rendeu episódios de fúria popular contra os jurados, xingados e com seus carros danificados à saída do evento. Apenas em 1991, Walter Clark, diretor-geral da Rede Globo de Televisão na época, a organizadora e transmissora do festival, revelou em sua autobiografia que a direção da emissora recebeu ordens do comando do I Exército para que nem "Caminhando" nem "América, América", de César Roldão Vieira, extremamente críticas ao governo, vencessem o festival. 
