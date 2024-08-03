@@ -197,3 +197,4 @@ A classificação da música em segundo lugar, sendo a favorita disparada do pú
 Boni, o segundo em comando da rede, anos depois declarou que o júri tinha sido soberano e não sofrera nenhuma pressão, desconhecendo o fato narrado por Walter Clark. O festival foi vencido por Sabiá de Chico Buarque de Hollanda e Tom Jobim. Anos mais tarde, Boni confessou que "ver Tom e Chico sendo vaiados era doloroso e Vandré ter perdido dava uma sensação de vazio".
 <center>
 <img src="https://i.scdn.co/image/ab67616d0000b27306a0f49eca98f102cab5e98c" width='300'>
+</center>
