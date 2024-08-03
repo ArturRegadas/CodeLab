@@ -1,0 +1,9 @@
+input: 7
+input: 8
+python{
+    output: 1231.50328
+}
+
+c{
+    output: 1231.50
+}

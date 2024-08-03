@@ -1,0 +1,6 @@
+alturap = float(input())
+largurap = float(input())
+alturaa = float(input())
+larguraa = float(input())
+R = (alturap * largurap) / (alturaa * larguraa)
+print(R)

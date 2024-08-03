@@ -1,0 +1,9 @@
+input: 2
+
+python{
+    output: 10.077777777777778
+}
+
+c{
+    output: 10.08
+}

@@ -1,0 +1,9 @@
+input: artur
+input: bob
+python{
+    output: bob artur
+}
+
+c{
+    output: bob artur
+}

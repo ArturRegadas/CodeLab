@@ -1,0 +1,1 @@
+print(((float(input())-32)*5)/9)

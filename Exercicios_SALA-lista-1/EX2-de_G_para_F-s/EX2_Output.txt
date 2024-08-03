@@ -1,0 +1,8 @@
+input: 6
+python{
+    output: -14.444444444444445
+}
+
+c{
+    output: -14.44
+}

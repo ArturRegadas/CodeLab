@@ -1,0 +1,9 @@
+input: 5
+
+python{
+    output: 25
+}
+
+c{
+    output: 25
+}

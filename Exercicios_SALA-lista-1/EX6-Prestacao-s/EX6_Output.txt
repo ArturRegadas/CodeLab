@@ -1,0 +1,11 @@
+input: 67
+input: 89
+input: 10
+
+python{
+    output: 663.3000000000001
+}
+
+c{
+    output: 663.30
+}

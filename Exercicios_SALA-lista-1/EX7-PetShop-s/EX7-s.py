@@ -1,0 +1,1 @@
+print((float(input())*0.7)/18+10)

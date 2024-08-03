@@ -1,0 +1,9 @@
+input: 49
+
+python{
+    output: 20.416666666666668
+}
+
+c{
+    output: 20.42
+}
