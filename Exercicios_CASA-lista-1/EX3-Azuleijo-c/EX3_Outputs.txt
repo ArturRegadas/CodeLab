@@ -1,0 +1,12 @@
+input: 12
+input: 34
+input: 56
+input: 71
+
+python{
+    output: 0.10261569416498995
+}
+
+c{
+    output: 0.10
+}

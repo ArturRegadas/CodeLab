@@ -1,0 +1,11 @@
+input: 7
+
+python{
+    output: 1436.7550157333333
+    output: 615.7521496
+}
+
+c{
+    output: 1436.76
+    output: 615.75
+}

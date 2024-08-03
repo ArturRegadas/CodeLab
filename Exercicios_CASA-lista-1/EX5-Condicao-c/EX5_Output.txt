@@ -1,0 +1,10 @@
+input: 4
+input: 6
+
+python{
+    output: 0.1111111111111111
+}
+
+c{
+    output: 0.11
+}

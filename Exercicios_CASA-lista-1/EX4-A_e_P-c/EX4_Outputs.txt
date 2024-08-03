@@ -1,0 +1,12 @@
+input: 25
+input: 31
+
+python{
+    output: 775.0
+    output: 112.0
+}
+
+c{
+    output: 775.00
+    output: 112.00
+}

@@ -1,5 +1,0 @@
-input: 3
-
-python{
-    output: 
-}

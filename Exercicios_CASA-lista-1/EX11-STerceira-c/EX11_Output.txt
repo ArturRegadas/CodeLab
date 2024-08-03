@@ -1,0 +1,14 @@
+input: 6
+input: 3
+
+python{
+    //trabalha com strings
+    output: 3
+    output: 6
+}
+
+c{
+    //trabalha com int
+    output: 3
+    output: 6
+}

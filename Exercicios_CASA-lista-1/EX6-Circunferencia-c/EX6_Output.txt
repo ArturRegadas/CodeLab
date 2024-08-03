@@ -1,0 +1,11 @@
+input: 6
+
+python{
+    output: 113.0973336
+    output: 37.699111200000004
+}
+
+c{
+    output: 113.10
+    output: 37.70
+}
