@@ -1,5 +1,5 @@
 Nhrs=0
-sals = []
+sals = 0
 sal = float(input())
 hrs = float(input())
 
@@ -16,12 +16,12 @@ while True:
     else:
         Nhrs = 0
 
-    sals.append(nsal + Nhrs)
-    print(f"o salário líquido desse funcionário é {nsal + Nhrs}")
+    sals+=nsal + Nhrs
+    print(f"o salário líquido desse funcionário é {nsal + Nhrs:.2f}")
 
     sal = float(input())
     if sal <= 0:
         break
     hrs = float(input())
 
-print(f"o total de salários líquidos foi de {sum(sals)}")
+print(f"o total de salários líquidos foi de {sals:.2f}")

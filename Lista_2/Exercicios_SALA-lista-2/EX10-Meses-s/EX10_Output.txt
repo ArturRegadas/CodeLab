@@ -1,0 +1,9 @@
+input: 6
+
+python{
+    output: junho
+}
+
+c{
+    output: Junho
+}

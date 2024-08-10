@@ -1,0 +1,14 @@
+input: 20
+input: 30
+input: 99
+
+python{
+    output: números divisíveis por 4: [20]
+    output: números divisíveis por 5: [20, 30]
+}
+
+c{
+    output: 20 é divisível por 4
+    output: 20 é divisível por 5
+    output: 30 é divisível por 5
+}

@@ -1,0 +1,11 @@
+input: 3
+input: 7
+input: 2
+
+python{
+    output: [-0.3333333333333333, -2.0]
+}
+
+c{
+    output: -0.33 e -2.00
+}

@@ -1,0 +1,14 @@
+input: 6
+input: 22
+input: 7
+
+python{
+    output: números divisíveis por 2: [6, 22]
+    output: números divisíveis por 3: [6]
+}
+
+c{
+    output: 6 é divisível por 2
+    output: 6 é divisível por 3
+    output: 22 é divisível por 2
+}

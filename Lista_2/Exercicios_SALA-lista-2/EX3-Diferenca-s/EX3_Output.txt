@@ -1,0 +1,10 @@
+input: 2
+input: 3
+
+python{
+    output: 1
+}
+
+c{
+    output: 1
+}

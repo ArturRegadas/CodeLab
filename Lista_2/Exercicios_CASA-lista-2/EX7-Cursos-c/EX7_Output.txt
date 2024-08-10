@@ -1,0 +1,9 @@
+input: 5
+
+python{
+    output: Análise de Sistemas
+}
+
+c{
+    output: Análise de Sistemas
+}

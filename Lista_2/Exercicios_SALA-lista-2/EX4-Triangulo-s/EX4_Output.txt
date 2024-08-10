@@ -1,0 +1,11 @@
+input: 5
+input: 3
+input: 7
+
+python{
+    output: É UM triângulo ESCALENO
+}
+
+c{
+    output: É UM triângulo Escaleno
+}
