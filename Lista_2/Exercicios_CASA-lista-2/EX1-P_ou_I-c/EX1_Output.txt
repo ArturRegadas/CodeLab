@@ -1,0 +1,9 @@
+input: 2
+
+python{
+    output: É par
+}
+
+c{
+    output: É par
+}

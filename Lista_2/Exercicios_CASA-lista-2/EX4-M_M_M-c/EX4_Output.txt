@@ -1,0 +1,11 @@
+input: 3
+input: 6
+input: 1
+
+python{
+    output: o maior número é 6, o menor é 1, e o do meio é 3
+}
+
+c{
+    output: o maior número é 6, o menor é 1, e o do meio é 3
+}

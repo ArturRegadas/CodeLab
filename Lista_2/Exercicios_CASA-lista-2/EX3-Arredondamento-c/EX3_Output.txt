@@ -1,0 +1,9 @@
+input: 2.5
+
+python{
+    output: 2
+}
+
+c{
+    output: 2
+}
