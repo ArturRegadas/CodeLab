@@ -1,9 +1,8 @@
 #include <stdio.h>
 
 int main() {
-    float input, resultado;
+    float input;
     scanf("%f", &input);
-    resultado = (input * 0.7) / 18 + 10;
-    printf("%.2f\n", resultado);
+    printf("%.2f\n", (input * 0.7) / 18 + 10);
     return 0;
 }
