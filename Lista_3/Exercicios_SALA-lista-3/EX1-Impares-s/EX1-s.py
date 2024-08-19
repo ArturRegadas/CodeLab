@@ -1,0 +1,1 @@
+for i in range(0, 21):print(i if i % 2 != 0 else '', end=' ')
