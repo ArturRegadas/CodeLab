@@ -1,0 +1,1 @@
+x=[i if i%2==0 else 0 for i in range(1, 501)]; print(sum(x))

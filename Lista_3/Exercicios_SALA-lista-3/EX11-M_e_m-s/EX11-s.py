@@ -1,0 +1,1 @@
+x=[int(input()) for i in range(0, 5)]; x.sort(); print(x[0], x[4])

@@ -1,0 +1,1 @@
+for i in range(0, 16): a=0 if not 'a' in globals() else a;b=1 if not 'b' in globals() else b;print(a if a != 0 else ''); a, b = b, a + b

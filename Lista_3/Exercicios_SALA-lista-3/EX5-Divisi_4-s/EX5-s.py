@@ -1,0 +1,1 @@
+for i in range(1, 201):print(str(i)+' ' if i % 4 ==0 else'', end='')
