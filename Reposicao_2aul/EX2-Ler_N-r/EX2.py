@@ -32,7 +32,7 @@ while (escolha!='n'):
     elif 101 <= nu < 1000:
         f5 += 1
         faixa = 5
-        fs5+=num
+        fs5 +=num
     
     if nu % 2 == 0:
         par += 1
