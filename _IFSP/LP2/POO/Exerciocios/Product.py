@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 class Product:
     def __init__(self, name:str, price:float, qtd:int) -> None:
         self._name = name

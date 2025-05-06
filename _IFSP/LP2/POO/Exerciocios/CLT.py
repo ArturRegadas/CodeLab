@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 class Employ:
     def __init__(self, name:str, salary:float) -> None:
         self.name = name

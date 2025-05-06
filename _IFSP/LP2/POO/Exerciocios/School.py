@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 class Class:
     def __init__(self,id:str, courses:list['Course'] = []) -> None:
         self._id = id

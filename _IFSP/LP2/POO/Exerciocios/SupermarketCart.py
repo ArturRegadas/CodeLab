@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # implementação de linkedList usando conceitos de POO,
 # desafiador fazer sem tipagem 
 class Product:
