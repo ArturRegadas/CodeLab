@@ -18,6 +18,6 @@ class Course:
 
 class Studant:
     def __init__(self, id:str, name:str, age:int) -> None:
-        self.id = id
-        self.name = name
-        self.age = age
+        self._id = id
+        self._name = name
+        self._age = age
