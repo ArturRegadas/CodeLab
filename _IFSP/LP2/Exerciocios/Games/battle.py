@@ -1,47 +1,93 @@
-from random import randint
+from random import randint, choice
+
+class Ship:
+    def __init__(self, positions:int) -> None:
+        self._positions = positions
+        self._hits = set()
+
+    def isAt(self, y:int, x:int) -> bool:
+        return (y, x) in self._positions
+
+    def registerHit(self, y:int, x:int) -> None:
+        if self.isAt(y, x):
+            self._hits.add((y, x))
+
+    def isSunk(self) -> bool:
+        return set(self._positions) == self._hits
+
+
 class NavalGame:
-    def __init__(self, height:int, widht:int, qtdBoats:int) -> None:
-        self._board = [[False for i in range(widht)]for i in range(height)]
-        self._boardPlay =[["."]*widht for i in range(height)]
+    def __init__(self, height:int, width:int, numShips:int, shipSize:int) -> None:
         self._height = height
-        self._widht = widht
-        self._boats = 0
-        for i in range(qtdBoats):
-            y = randint(0, height-1)
-            x = randint(0, widht-1)
+        self._width = width
+        self._board = [["." for _ in range(width)] for _ in range(height)]
+        self._ships = []
+        self._placeShips(numShips, shipSize)
 
-            if (not self._board[x][y]):
-                self._board[x][y] = True
-                self._boats+=1
-            
-    def getBoats(self):
-        return self._boats
+    def _placeShips(self, numShips:int, shipSize:int) -> None:
+        count = 0
+        while count < numShips:
+            horizontal = choice([True, False])
+            if horizontal:
+                x = randint(0, self._width - shipSize)
+                y = randint(0, self._height - 1)
+                positions = [(y, x + i) for i in range(shipSize)]
+            else:
+                x = randint(0, self._width - 1)
+                y = randint(0, self._height - shipSize)
+                positions = [(y + i, x) for i in range(shipSize)]
 
-    def play(self, x:int, y:int) -> bool:
-        x-=1
-        y-=1
-        if x < 0 or x >= self._height or y < 0 or y >= self._widht:
-            return False
-        self._boardPlay[y][x] = "O" if self._board[y][x] else "X"
-        for i in self._boardPlay:
-            for j in i:
-                print(j, end="")
-            print()
-        if(self._board[y][x]):
-            print("acertou")
-            self._boats-=1
-            return False
-        print("errou")
-        return True
-    
+            if all(not any(ship.isAt(py, px) for ship in self._ships) for py, px in positions):
+                self._ships.append(Ship(positions))
+                count += 1
+
+    def showBoard(self) -> None:
+        for i in range(self._height):
+            print(" ".join(self._board[i]))
+        print()
+
+    def play(self, y:int, x:int) -> str:
+        y -= 1
+        x -= 1
+        if not (0 <= y < self._height and 0 <= x < self._width):
+            return "Fora."
+        if self._board[y][x] != ".":
+            return "Já jogou aqui."
+
+        for ship in self._ships:
+            if ship.isAt(y, x):
+                ship.registerHit(y, x)
+                self._board[y][x] = "O"
+                if ship.isSunk():
+                    return "Você destruiu um navio!"
+                return "Acertou um navio!"
+        self._board[y][x] = "X"
+        return "Água."
+
+    def allSunk(self) -> bool:
+        return all(ship.isSunk() for ship in self._ships)
+
 
 def main():
-    navalGame = NavalGame(5, 5, 3)
-    while(1):
-        x, y = list(map(int, input("[x y]").split()))
-        navalGame.play(x, y)
-        if(navalGame.getBoats() <=0):
-            print("ganhou")
-            break
+    x, y = 10, 10
+    qtdBoats = 4
+    boatSize = 3
+
+    game = NavalGame(x, y, qtdBoats, boatSize)
+    game.showBoard()
+
+    while not game.allSunk():
+        try:
+            a = input("(p - parar)[linha coluna]: ")
+            if a == "p":break
+            y, x = map(int, a.strip().split())
+            resultado = game.play(y, x)
+            print(resultado)
+            game.showBoard()
+        except:
+            print("invalido")
+
+    if a != "p":
+        print("Todos os navios destruídos!")
 
 main()
