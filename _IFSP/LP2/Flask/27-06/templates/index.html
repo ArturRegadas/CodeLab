@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    {% if logado %}
+        <ul>
+        {% for produto in produtos%}
+            <li>{{produto}}</li>
+        {% endfor %}
+        <a href="/logout">logout</a>
+        <br>
+        <a href="/profile">go profile</a>
+        </ul>
+    {% else %}
+        <h1>NÃO ESTA LOGADO</h1>
+        <a href="/form">Logar</a>
+    {% endif %}
+</body>
+</html>
