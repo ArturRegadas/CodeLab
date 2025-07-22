@@ -1,0 +1,137 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #3f87a6, #ebf8e1);
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #3f87a6, #ebf8e1);
+}
+
+
+form#forms {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+form#forms input[type="text"],
+form#forms input[type="email"],
+form#forms input[type="password"] {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.3s ease;
+  font-size: 1rem;
+}
+
+form#forms input:focus {
+  outline: none;
+  border-color: #3f87a6;
+  box-shadow: 0 0 0 2px rgba(63, 135, 166, 0.3);
+}
+
+
+form#forms input[type="submit"] {
+  background-color: #3f87a6;
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form#forms input[type="submit"]:hover {
+  background-color: #326e89;
+}
+
+
+#error {
+  color: #d8000c;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+form#forms {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+form#forms input[type="text"],
+form#forms input[type="email"],
+form#forms input[type="password"] {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.3s ease;
+  font-size: 1rem;
+}
+
+form#forms input:focus {
+  outline: none;
+  border-color: #3f87a6;
+  box-shadow: 0 0 0 2px rgba(63, 135, 166, 0.3);
+}
+
+
+form#forms input[type="submit"] {
+  background-color: #3f87a6;
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form#forms input[type="submit"]:hover {
+  background-color: #326e89;
+}
+
+
+#error {
+  color: #d8000c;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+}

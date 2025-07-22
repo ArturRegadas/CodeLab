@@ -1,2 +1,0 @@
-
-    while not game.allSunk():
