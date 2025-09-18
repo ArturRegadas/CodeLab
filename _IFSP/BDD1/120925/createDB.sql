@@ -26,22 +26,23 @@ CREATE TABLE IF NOT EXISTS Usuario(
     foto BLOB
 );
 
-CREATE TABLE IF NOT EXISTS Prova(
-	id_prova INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_usuario INT REFERENCES Usuario(id_usuario),
-    descricao VARCHAR(255),
-    tema VARCHAR(255),
-    data_prova DATETIME
-);
-
 CREATE TABLE IF NOT EXISTS Materia(
 	id_materia INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_prova INT REFERENCES Prova(id_prova),
     nome VARCHAR(255) NOT NULL,
     sigla CHAR(5) NOT NULL,
     curso VARCHAR(100) NOT NULL,
     inativa BOOL NOT NULL DEFAULT TRUE
 );
+
+CREATE TABLE IF NOT EXISTS Prova(
+	id_prova INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_materia INT NOT NULL REFERENCES Materia(id_materia),
+    id_usuario INT NOT NULL REFERENCES Usuario(id_usuario),
+    descricao VARCHAR(255),
+    tema VARCHAR(255),
+    data_prova DATETIME
+);
+
 
 CREATE TABLE IF NOT EXISTS Questao(
 	id_questao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
