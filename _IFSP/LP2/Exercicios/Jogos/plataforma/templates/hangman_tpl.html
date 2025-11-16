@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Forca</h2>
+<div id="status"></div>
+<div id="ans" style="font-size:24px;letter-spacing:4px"></div>
+<div class="controls">
+  <input id="letter" maxlength=1 placeholder="letra">
+  <button onclick="guess()">Chutar</button>
+  <button onclick="newGame()">Reiniciar</button>
+</div>
+<script>
+async function render(){
+  const r = await fetch('/hangman/state');
+  const data = await r.json();
+  document.getElementById('ans').textContent = data.ans;
+  document.getElementById('status').textContent = 'Vidas: '+data.lifes + (data.status!=='playing'?(' - '+data.status):'');
+}
+async function guess(){
+  const letter = document.getElementById('letter').value;
+  if(!letter) return;
+  await fetch('/hangman/play', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({letter})});
+  document.getElementById('letter').value='';
+  render();
+}
+async function newGame(){
+  await fetch('/hangman/new');
+  render();
+}
+render();
+</script>
+{% endblock %}

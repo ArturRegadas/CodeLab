@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Portal</title>
+
+    {% if tema == "dark" %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='dark.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% endif %}
+</head>
+
+<body>
+<div class="container">
+    <h1>Bem-vindo, {{ usuario }}!</h1>
+    <p>Você acessou esta página <strong>{{ visitas }}</strong> vezes nesta sessão.</p>
+
+    <hr>
+
+    <h3>Filtrar notícias</h3>
+    <form method="POST" action="/categoria">
+        <select name="categoria">
+            <option {{ 'selected' if categoria=='Esportes' }}>Esportes</option>
+            <option {{ 'selected' if categoria=='Entretenimento' }}>Entretenimento</option>
+            <option {{ 'selected' if categoria=='Lazer' }}>Lazer</option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <h2>Notícias de {{ categoria }}</h2>
+    <ul>
+        {% for n in noticias %}
+        <li><a href="/noticia/{{ n.id }}">{{ n.titulo }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h3>Tema</h3>
+    <a href="/tema/light">Claro</a> |
+    <a href="/tema/dark">Escuro</a>
+
+    <hr>
+
+    <a href="/logout">Logout</a>
+</div>
+</body>
+</html>

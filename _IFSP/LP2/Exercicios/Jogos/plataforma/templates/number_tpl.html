@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Adivinhar Número</h2>
+<div id="result"></div>
+<div class="controls">
+  <input id="num" type=number min=1 max=5>
+  <button onclick="play()">Jogar</button>
+</div>
+<script>
+async function play(){
+  const n = parseInt(document.getElementById('num').value);
+  const r = await fetch('/number/play', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({n})});
+  const data = await r.json();
+  document.getElementById('result').textContent = data.win?('A máquina escolheu '+data.machine+' — Você ganhou!'):('A máquina escolheu '+data.machine+' — Você perdeu');
+}
+</script>
+{% endblock %}

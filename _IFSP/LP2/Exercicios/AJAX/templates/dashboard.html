@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<h1>Bem-vindo, {{ nome }}!</h1>
+
+<button id="logoutBtn">Sair</button>
+
+<script>
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        const req = await fetch("/api/logout", {
+            method: "POST"
+        });
+
+        const json = await req.json();
+
+        if (json.status === "success") {
+            window.location.href = "/";
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Jokenpo</h2>
+<div id="result"></div>
+<div class="controls">
+  <select id="choice">
+    <option value="1">Papel</option>
+    <option value="2">Pedra</option>
+    <option value="3">Tesoura</option>
+  </select>
+  <button onclick="play()">Jogar</button>
+</div>
+<script>
+async function play(){
+  const p1 = parseInt(document.getElementById('choice').value);
+  const r = await fetch('/jokenpo/play', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({p1})});
+  const data = await r.json();
+  document.getElementById('result').textContent = `Você: ${data.p1} | Máquina: ${data.p2} -> ${data.result}`;
+}
+</script>
+{% endblock %}

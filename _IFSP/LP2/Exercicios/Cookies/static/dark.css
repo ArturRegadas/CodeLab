@@ -1,0 +1,26 @@
+body {
+    background: #111;
+    color: #eee;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.container {
+    background: #222;
+    padding: 20px;
+    width: 70%;
+    margin: auto;
+    border-radius: 8px;
+}
+
+a {
+    color: #6ba4ff;
+}
+
+button, select {
+    padding: 8px 12px;
+    margin-top: 10px;
+    background: #333;
+    color: white;
+    border: none;
+}

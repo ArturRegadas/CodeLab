@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login AJAX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/login.js') }}"></script>
+</head>
+<body>
+
+<h1>Login</h1>
+
+<div class="container">
+
+    <form id="formLogin">
+        <input type="email" id="log_email" placeholder="Email">
+        <input type="password" id="log_password" placeholder="Password">
+        <button type="submit">Entrar</button>
+    </form>
+
+    <div id="resLogin" class="response"></div>
+
+    <p>Não possui conta? <a href="{{ url_for('register_page') }}">Ir para cadastro</a></p>
+
+</div>
+
+</body>
+</html>

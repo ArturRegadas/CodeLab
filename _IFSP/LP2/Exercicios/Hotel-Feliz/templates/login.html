@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Login - Estada Feliz{% endblock %}
+{% block content %}
+<section class="login-box">
+    <h2>Entrar</h2>
+    <form id="login-form">
+        <label>Email</label>
+        <input type="email" id="email" required />
+        <label>Senha</label>
+        <input type="password" id="senha" required />
+        <button type="submit">Entrar</button>
+    </form>
+    <div id="login-msg"></div>
+    <p>Nao tem conta? <a href="/register_page">Clique Aqui</a></p>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        const res = await fetch('/login', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            window.location.href = '/dashboard';
+        } else {
+            document.getElementById('login-msg').innerText = data.error || data.message;
+        }
+    });
+</script>
+{% endblock %}

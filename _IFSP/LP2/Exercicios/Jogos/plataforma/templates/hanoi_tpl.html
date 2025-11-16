@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Torre de Hanoi</h2>
+
+<div id="hanoi" class="hanoi-container"></div>
+
+<div class="controls">
+  <input id="init" placeholder="inicio (1-3)" size="6">
+  <input id="dest" placeholder="destino (1-3)" size="6">
+  <button onclick="move()">Mover</button>
+  <button onclick="newGame()">Reiniciar</button>
+</div>
+
+<script>
+async function render(){
+  const r = await fetch('/hanoi/state');
+  const data = await r.json();
+  const towers = data.tower;
+
+  const root = document.getElementById('hanoi');
+  root.innerHTML = "";
+
+  towers.forEach(col => {
+    const colDiv = document.createElement("div");
+    colDiv.className = "hanoi-col";
+
+    const rod = document.createElement("div");
+    rod.className = "hanoi-rod";
+    colDiv.appendChild(rod);
+
+    col.slice().reverse().forEach(size => {
+      const d = document.createElement("div");
+      d.className = "hanoi-disk size-" + size;
+      d.textContent = size;
+      colDiv.appendChild(d);
+    });
+
+    root.appendChild(colDiv);
+  });
+}
+
+async function move(){
+  const init = parseInt(document.getElementById('init').value);
+  const dest = parseInt(document.getElementById('dest').value);
+
+  const r = await fetch('/hanoi/move', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({init, dest})
+  });
+
+  const data = await r.json();
+  if (!data.ok) alert(data.error);
+  if (data.won) alert("Você ganhou!");
+
+  render();
+}
+
+async function newGame(){
+  await fetch('/hanoi/new');
+  render();
+}
+
+render();
+</script>
+{% endblock %}

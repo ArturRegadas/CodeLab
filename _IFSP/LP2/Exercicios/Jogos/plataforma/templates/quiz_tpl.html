@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Quiz</h2>
+<div id="question"></div>
+<div id="result"></div>
+<div class="controls">
+  <button onclick="answer(1)">Verdadeiro</button>
+  <button onclick="answer(0)">Falso</button>
+  <button onclick="newQ()">Próxima</button>
+</div>
+<script>
+async function render(){
+  const r = await fetch('/quiz/ask');
+  const data = await r.json();
+  document.getElementById('question').textContent = data.question;
+  document.getElementById('result').textContent = '';
+}
+async function answer(ans){
+  const r = await fetch('/quiz/answer', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ans})});
+  const data = await r.json();
+  document.getElementById('result').textContent = data.result?('Acertou! Pontuação: '+data.score):('Errou. Pontuação: '+data.score);
+}
+async function newQ(){
+  render();
+}
+render();
+</script>
+{% endblock %}

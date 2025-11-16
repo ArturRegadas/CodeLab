@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Minhas Reservas{% endblock %}
+
+{% block content %}
+<h2>Minhas Reservas</h2>
+
+{% if reservas %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Quarto</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Status</th>
+            <th>Valor Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for r in reservas %}
+        <tr>
+            <td>{{ r.numero_quarto or 'Não atribuído' }}</td>
+            <td>{{ r.data_checkin }}</td>
+            <td>{{ r.data_checkout }}</td>
+            <td>{{ r.status_reserva }}</td>
+            <td>{{ r.valor_total }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Você não possui reservas no momento.</p>
+{% endif %}
+
+{% endblock %}

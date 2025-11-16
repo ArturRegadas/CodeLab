@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro AJAX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/register.js') }}"></script>
+</head>
+<body>
+
+<h1>Cadastro de Usuário</h1>
+
+<div class="container">
+
+    <form id="formCadastro">
+        <input type="text" id="cad_username" placeholder="Username">
+        <input type="email" id="cad_email" placeholder="Email">
+        <input type="password" id="cad_password" placeholder="Password">
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <div id="resCadastro" class="response"></div>
+
+    <p>Já possui conta? <a href="{{ url_for('login_page') }}">Ir para login</a></p>
+
+</div>
+
+</body>
+</html>

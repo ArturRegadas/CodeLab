@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+}
+
+.container {
+    padding: 20px;
+}
+
+input, button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 8px;
+}
+
+.response {
+    margin-top: 5px;
+    padding: 10px;
+    background: #eee;
+}

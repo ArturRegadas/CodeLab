@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Batalha Naval</h2>
+<div id="status"></div>
+<table class="board" id="board"></table>
+<div class="controls">
+  <input id="y" placeholder="linha (1-based)" size=6>
+  <input id="x" placeholder="coluna (1-based)" size=6>
+  <button onclick="shoot()">Atirar</button>
+  <button onclick="newGame()">Reiniciar</button>
+</div>
+<script>
+async function render(){
+  const r = await fetch('/naval/state');
+  const data = await r.json();
+  const board = data.board;
+  const tbl = document.getElementById('board');
+  tbl.innerHTML = '';
+  for(let i=0;i<board.length;i++){
+    const tr = document.createElement('tr');
+    for(let j=0;j<board[0].length;j++){
+      const td = document.createElement('td');
+      td.textContent = board[i][j];
+      tr.appendChild(td);
+    }
+    tbl.appendChild(tr);
+  }
+  document.getElementById('status').textContent = data.message || '';
+}
+async function shoot(){
+  const y = document.getElementById('y').value;
+  const x = document.getElementById('x').value;
+
+  const r = await fetch('/naval/play', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ y: y, x: x })
+  });
+
+  const data = await r.json();
+  alert(data.result);
+  if(data.finished) alert('Todos os navios destruídos!');
+  render();
+}
+
+async function newGame(){
+  await fetch('/naval/new');
+  render();
+}
+render();
+</script>
+{% endblock %}

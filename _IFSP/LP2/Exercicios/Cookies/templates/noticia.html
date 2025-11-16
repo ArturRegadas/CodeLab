@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Notícia</title>
+
+    {% if tema == "dark" %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='dark.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% endif %}
+</head>
+
+<body>
+<div class="container">
+    <h1>{{ noticia.titulo }}</h1>
+    <p>{{ noticia.conteudo }}</p>
+
+    <br>
+    <a href="/home">Voltar</a>
+</div>
+</body>
+</html>

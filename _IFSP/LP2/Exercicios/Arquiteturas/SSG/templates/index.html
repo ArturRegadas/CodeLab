@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Pilotos F1</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #111, #222);
+        color: #f0f0f0;
+        padding: 40px;
+    }
+
+    
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        letter-spacing: 1px;
+        color: #ff2d2d;
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    
+    #lista {
+        list-style: none;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    
+    #lista li {
+        background: #1b1b1b;
+        margin: 10px 0;
+        padding: 15px 20px;
+        border-radius: 8px;
+
+        
+        border-left: 5px solid #ff2d2d;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+
+        font-size: 1.2rem;
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    
+    #lista li:hover {
+        transform: translateX(8px);
+        background: #252525;
+    }
+</style>
+
+<body>
+    <h1>Pilotos Fórmula 1</h1>
+    <ul id="lista">
+        <li>Max Verstapen - Red Bull</li>
+        <li>Lewis Hamilton - Mercedes</li>
+        <li>Charles Leclerc - Ferrari</li>
+    </ul>
+</body>
+
+</html>

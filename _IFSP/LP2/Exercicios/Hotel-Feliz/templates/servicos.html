@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Serviços{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <h2>Serviços</h2>
+
+    <button class="btn primary" id="btnNovo">Novo Serviço</button>
+
+    <table class="table" id="tabela-servicos">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- Modal Criar Serviço -->
+<div class="modal" id="modalServico" style="display:none;">
+    <div class="modal-content">
+        <h3>Novo Serviço</h3>
+
+        <div class="form-row">
+            <label>Nome do serviço</label>
+            <input type="text" id="nome_servico">
+        </div>
+
+        <div class="form-row">
+            <label>Preço</label>
+            <input type="number" id="preco" step="0.01">
+        </div>
+
+        <button class="btn primary" id="btnSalvar">Salvar</button>
+        <button class="btn" id="btnFechar">Fechar</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function carregarServicos() {
+    const res = await fetch('/servicos');
+    const data = await res.json();
+
+    const tbody = document.querySelector('#tabela-servicos tbody');
+    tbody.innerHTML = '';
+
+    data.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${s.id_servico}</td>
+            <td>${s.nome_servico}</td>
+            <td>R$ ${parseFloat(s.preco).toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+document.getElementById('btnNovo').onclick = () => {
+    document.getElementById('modalServico').style.display = 'block';
+};
+
+document.getElementById('btnFechar').onclick = () => {
+    document.getElementById('modalServico').style.display = 'none';
+};
+
+document.getElementById('btnSalvar').onclick = async () => {
+    const body = {
+        nome_servico: document.getElementById('nome_servico').value,
+        preco: document.getElementById('preco').value
+    };
+
+    const res = await fetch('/servicos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+
+    if(!res.ok){
+        alert(data.error);
+        return;
+    }
+
+    alert('Serviço criado com sucesso!');
+    document.getElementById('modalServico').style.display = 'none';
+    carregarServicos();
+};
+
+window.onload = carregarServicos;
+</script>
+{% endblock %}
