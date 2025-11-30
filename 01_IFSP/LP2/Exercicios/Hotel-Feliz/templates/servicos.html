@@ -1,97 +1,144 @@
-{% extends "base.html" %}
-{% block title %}Serviços{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Serviços - Estada Feliz{% endblock %}
 
 {% block content %}
-<div class="page-container">
-    <h2>Serviços</h2>
+<section class="page-header">
+  <h2>Serviços</h2>
+  <div class="actions">
+    <button id="btn-novo-servico" class="btn primary">+ Novo Serviço</button>
+    <button id="btn-refresh-servicos" class="btn">Atualizar</button>
+  </div>
+</section>
 
-    <button class="btn primary" id="btnNovo">Novo Serviço</button>
+<section class="table-wrap">
+  <table id="table-servicos">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div id="pagination-servicos"></div>
+</section>
 
-    <table class="table" id="tabela-servicos">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Preço</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<!-- Modal: criar/editar serviço -->
+<div id="modal-servico" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <button class="modal-close" id="modal-close">×</button>
+    <h3 id="modal-title">Novo Serviço</h3>
+    <form id="form-servico">
+      <div class="form-row">
+        <label for="nome_servico">Nome do Serviço</label>
+        <input type="text" id="nome_servico" name="nome_servico" required />
+      </div>
+
+      <div class="form-row">
+        <label for="preco">Preço (R$)</label>
+        <input type="number" id="preco" name="preco" step="0.01" required />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Salvar</button>
+        <button type="button" class="btn">Cancelar</button>
+      </div>
+
+      <input type="hidden" id="editing_id" name="editing_id" value="" />
+    </form>
+  </div>
 </div>
 
-<!-- Modal Criar Serviço -->
-<div class="modal" id="modalServico" style="display:none;">
-    <div class="modal-content">
-        <h3>Novo Serviço</h3>
-
-        <div class="form-row">
-            <label>Nome do serviço</label>
-            <input type="text" id="nome_servico">
-        </div>
-
-        <div class="form-row">
-            <label>Preço</label>
-            <input type="number" id="preco" step="0.01">
-        </div>
-
-        <button class="btn primary" id="btnSalvar">Salvar</button>
-        <button class="btn" id="btnFechar">Fechar</button>
-    </div>
-</div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-async function carregarServicos() {
-    const res = await fetch('/servicos');
-    const data = await res.json();
-
-    const tbody = document.querySelector('#tabela-servicos tbody');
-    tbody.innerHTML = '';
-
-    data.forEach(s => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${s.id_servico}</td>
-            <td>${s.nome_servico}</td>
-            <td>R$ ${parseFloat(s.preco).toFixed(2)}</td>
-        `;
-        tbody.appendChild(tr);
-    });
+function openModal() {
+  const modal = document.getElementById('modal-servico');
+  modal.setAttribute('aria-hidden', 'false');
 }
 
-document.getElementById('btnNovo').onclick = () => {
-    document.getElementById('modalServico').style.display = 'block';
-};
+function closeModal() {
+  const modal = document.getElementById('modal-servico');
+  modal.setAttribute('aria-hidden', 'true');
+  document.getElementById('form-servico').reset();
+  document.getElementById('editing_id').value = '';
+  document.getElementById('modal-title').innerText = 'Novo Serviço';
+}
 
-document.getElementById('btnFechar').onclick = () => {
-    document.getElementById('modalServico').style.display = 'none';
-};
+async function preencherTabelaServicos() {
+  try {
+    const stateKey = 'servicos';
+    const current = window.__paginationState[stateKey] || 1;
+    const { items: servicos, meta } = await fetchPaginated('/servicos', current, 10);
+    
+    const tbody = document.querySelector('#table-servicos tbody');
+    tbody.innerHTML = '';
+    servicos.forEach(s => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${s.id_servico}</td>
+        <td>${s.nome_servico}</td>
+        <td>R$ ${parseFloat(s.preco).toFixed(2)}</td>
+        <td>
+          <button class="btn small" data-action="delete" data-id="${s.id_servico}">Apagar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+    attachPaginationToTable('table-servicos', 'pagination-servicos', meta,
+      (p) => { window.__paginationState[stateKey] = p; preencherTabelaServicos(); });
+  } catch (e) {
+    console.error('Erro ao preencher tabela de serviços', e);
+  }
+}
 
-document.getElementById('btnSalvar').onclick = async () => {
-    const body = {
-        nome_servico: document.getElementById('nome_servico').value,
-        preco: document.getElementById('preco').value
+async function apagarServico(id) {
+  if (!confirm('Confirma a remoção deste serviço?')) return;
+  try {
+    await apiDelete(`/servicos/${id}`);
+    await preencherTabelaServicos();
+  } catch (e) {
+    alert('Erro ao apagar serviço: ' + e.message);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('btn-novo-servico').addEventListener('click', openModal);
+  document.getElementById('btn-refresh-servicos').addEventListener('click', preencherTabelaServicos);
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.querySelectorAll('.form-actions .btn:not([type="submit"])').forEach(btn => {
+    btn.addEventListener('click', closeModal);
+  });
+
+  document.getElementById('form-servico').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      nome_servico: document.getElementById('nome_servico').value,
+      preco: parseFloat(document.getElementById('preco').value)
     };
 
-    const res = await fetch('/servicos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    });
-
-    const data = await res.json();
-
-    if(!res.ok){
-        alert(data.error);
-        return;
+    try {
+      await apiPost('/servicos', payload);
+      closeModal();
+      await preencherTabelaServicos();
+    } catch (err) {
+      alert('Erro ao salvar serviço: ' + err.message);
     }
+  });
 
-    alert('Serviço criado com sucesso!');
-    document.getElementById('modalServico').style.display = 'none';
-    carregarServicos();
-};
+  document.querySelector('#table-servicos tbody').addEventListener('click', (ev) => {
+    const btn = ev.target.closest('button');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    const id = btn.dataset.id;
+    if (action === 'delete') apagarServico(id);
+  });
 
-window.onload = carregarServicos;
+  preencherTabelaServicos();
+});
 </script>
 {% endblock %}

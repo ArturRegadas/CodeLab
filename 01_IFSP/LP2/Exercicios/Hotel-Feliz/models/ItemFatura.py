@@ -1,5 +1,4 @@
-from setup.InitSQLAlchemy import db
-
+﻿from setup.InitSQLAlchemy import db
 class ItemFatura(db.Model):
     __tablename__ = 'itens_fatura'
     id_item = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -8,10 +7,8 @@ class ItemFatura(db.Model):
     quantidade = db.Column(db.Integer, nullable=False, default=1)
     preco_unitario_registro = db.Column(db.Numeric(10, 2), nullable=False)
     data_consumo = db.Column(db.DateTime, nullable=False)
-
     fatura = db.relationship('Fatura', back_populates='itens')
     servico = db.relationship('Servico', back_populates='itens_fatura')
-
     def to_dict(self):
         return {
             "id_item": self.id_item,

@@ -1,5 +1,4 @@
-from setup.InitSQLAlchemy import db
-
+﻿from setup.InitSQLAlchemy import db
 class Hospede(db.Model):
     __tablename__ = 'hospedes'
     id_hospede = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -8,11 +7,8 @@ class Hospede(db.Model):
     telefone = db.Column(db.String(20))
     email = db.Column(db.String(100), unique=True)
     id_usuario_sistema = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
-
     usuario_sistema = db.relationship('Usuario')
-
     reservas = db.relationship('Reserva', back_populates='hospede_principal')
-
     def to_dict(self):
         return {
             "id_hospede": self.id_hospede,
@@ -22,5 +18,3 @@ class Hospede(db.Model):
             "email": self.email,
             "id_usuario_sistema": self.id_usuario_sistema
         }
-
-

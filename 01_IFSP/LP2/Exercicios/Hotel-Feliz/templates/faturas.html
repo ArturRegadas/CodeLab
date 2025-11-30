@@ -109,7 +109,8 @@ function closeModal(id){
 async function carregarReservasSelect(){
   const sel = document.getElementById('id_reserva');
   try{
-    const reservas = await apiGet('/reservas');
+    const result = await apiGet('/reservas');
+    const reservas = Array.isArray(result) ? result : result.items || [];
     sel.innerHTML = '<option value="">-- selecione --</option>';
     reservas.forEach(r=>{
       const opt = document.createElement('option');
@@ -118,6 +119,7 @@ async function carregarReservasSelect(){
       sel.appendChild(opt);
     });
   }catch(e){
+    console.error(e);
     sel.innerHTML = '<option value="">Erro ao carregar</option>';
   }
 }
@@ -126,7 +128,8 @@ async function preencherTabelaFaturas(){
   const tbody = document.querySelector('#table-faturas tbody');
   tbody.innerHTML = '';
   try{
-    const faturas = await apiGet('/faturas_list'); // É recomendável criar GET /faturas_list retornando todas as faturas
+    const result = await apiGet('/faturas');
+    const faturas = Array.isArray(result) ? result : result.items || [];
     faturas.forEach(f=>{
       const total = (parseFloat(f.valor_diarias) + parseFloat(f.valor_servicos)).toFixed(2);
 

@@ -5,13 +5,13 @@
 <section class="page-header">
   <h2>Quartos</h2>
   <div class="actions">
-    <button id="btn-novo-quarto" class="btn">Novo Quarto</button>
+    <button id="btn-novo-quarto" class="btn primary">+ Novo Quarto</button>
     <button id="btn-refresh-quartos" class="btn">Atualizar</button>
   </div>
 </section>
 
 <section class="table-wrap">
-  <table id="table-quartos" class="table">
+  <table id="table-quartos">
     <thead>
       <tr>
         <th>Número</th>
@@ -23,6 +23,7 @@
     </thead>
     <tbody></tbody>
   </table>
+  <div id="pagination-quartos"></div>
 </section>
 
 <!-- Modal: criar/editar quarto -->
@@ -39,7 +40,7 @@
       <div class="form-row">
         <label for="id_tipo">Tipo de quarto</label>
         <select id="id_tipo" name="id_tipo" required>
-          <option value="">Carregando...</option>
+          <option value="">-- Selecione --</option>
         </select>
       </div>
 
@@ -58,11 +59,10 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn primary" id="save-quarto">Salvar</button>
-        <button type="button" class="btn" id="cancel-quarto">Cancelar</button>
+        <button type="submit" class="btn primary">Salvar</button>
+        <button type="button" class="btn">Cancelar</button>
       </div>
 
-      <!-- campo oculto usado para edição -->
       <input type="hidden" id="editing_numero" name="editing_numero" value="" />
     </form>
   </div>
@@ -71,33 +71,14 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/forms.js') }}"></script>
 <script>
-/* Código pequeno específico para a página de quartos.
-   - Usa as funções API principais (apiGet, apiPost, apiPut, apiDelete) definidas em static/js/app.js
-   - Gerencia o modal de criação/edição e popula a tabela
-*/
-
-// abre modal
-function openModal() {
-  const modal = document.getElementById('modal-quarto');
-  modal.setAttribute('aria-hidden', 'false');
-  modal.style.display = 'block';
-}
-
-function closeModal() {
-  const modal = document.getElementById('modal-quarto');
-  modal.setAttribute('aria-hidden', 'true');
-  modal.style.display = 'none';
-  document.getElementById('form-quarto').reset();
-  document.getElementById('editing_numero').value = '';
-  document.getElementById('modal-title').innerText = 'Novo Quarto';
-}
-
 async function popularSelectTipos() {
   try {
-    const tipos = await apiGet('/tipos_quarto');
+    const result = await apiGet('/tipos_quarto');
+    const tipos = Array.isArray(result) ? result : result.items || [];
     const sel = document.getElementById('id_tipo');
-    sel.innerHTML = '<option value="">-- selecione --</option>';
+    sel.innerHTML = '<option value="">-- Selecione --</option>';
     tipos.forEach(t => {
       const opt = document.createElement('option');
       opt.value = t.id_tipo;
@@ -106,77 +87,37 @@ async function popularSelectTipos() {
     });
   } catch (e) {
     console.error('Erro ao carregar tipos de quarto', e);
-    const sel = document.getElementById('id_tipo');
-    sel.innerHTML = '<option value="">Erro ao carregar</option>';
+    document.getElementById('id_tipo').innerHTML = '<option value="">Erro ao carregar</option>';
   }
 }
 
-async function preencherTabelaQuartos() {
-  try {
-    const tbody = document.querySelector('#table-quartos tbody');
-    const quartos = await apiGet('/quartos');
-    tbody.innerHTML = '';
-    quartos.forEach(q => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${q.numero_quarto}</td>
-        <td>${q.tipo ? q.tipo.nome_tipo : ''}</td>
-        <td>${q.status_limpeza}</td>
-        <td>${q.localizacao || ''}</td>
-        <td>
-          <button class="btn small" data-action="edit" data-num="${q.numero_quarto}">Editar</button>
-          <button class="btn small danger" data-action="delete" data-num="${q.numero_quarto}">Apagar</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-  } catch (e) {
-    console.error('Erro ao preencher tabela de quartos', e);
-  }
-}
-
-// abre modal preenchido para edição
-async function editarQuarto(numero) {
-  try {
-    // aqui não temos rota GET /quartos/<id> no backend original; se necessário, pode-se listar e filtrar
-    const quartos = await apiGet('/quartos');
-    const q = quartos.find(x => String(x.numero_quarto) === String(numero));
-    if (!q) return alert('Quarto não encontrado');
-
-    document.getElementById('numero_quarto').value = q.numero_quarto;
-    document.getElementById('id_tipo').value = q.id_tipo || '';
-    document.getElementById('status_limpeza').value = q.status_limpeza || 'Sujo';
-    document.getElementById('localizacao').value = q.localizacao || '';
-    document.getElementById('editing_numero').value = q.numero_quarto;
-    document.getElementById('modal-title').innerText = 'Editar Quarto';
-    openModal();
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-async function apagarQuarto(numero) {
-  if (!confirm('Confirma a remoção do quarto ' + numero + '?')) return;
-  try {
-    await apiDelete(`/quartos/${numero}`);
-    await preencherTabelaQuartos();
-  } catch (e) {
-    console.error('Erro ao apagar quarto', e);
-    alert('Erro ao apagar quarto');
-  }
-}
-
-// submit do form (criar/editar)
 document.addEventListener('DOMContentLoaded', () => {
+  const modalQuarto = document.getElementById('modal-quarto');
+  let currentPage = 1;
+
+  function showModal() {
+    modalQuarto.style.display = 'block';
+    modalQuarto.setAttribute('aria-hidden', 'false');
+  }
+
+  function hideModal() {
+    modalQuarto.style.display = 'none';
+    modalQuarto.setAttribute('aria-hidden', 'true');
+    document.getElementById('form-quarto').reset();
+    document.getElementById('editing_numero').value = '';
+    document.getElementById('modal-title').innerText = 'Novo Quarto';
+  }
+
   document.getElementById('btn-novo-quarto').addEventListener('click', async () => {
     await popularSelectTipos();
-    openModal();
+    document.getElementById('form-quarto').reset();
+    document.getElementById('editing_numero').value = '';
+    document.getElementById('modal-title').innerText = 'Novo Quarto';
+    showModal();
   });
 
-  document.getElementById('btn-refresh-quartos').addEventListener('click', preencherTabelaQuartos);
-
-  document.getElementById('modal-close').addEventListener('click', closeModal);
-  document.getElementById('cancel-quarto').addEventListener('click', closeModal);
+  document.getElementById('btn-refresh-quartos').addEventListener('click', () => carregarQuartos(currentPage));
+  document.getElementById('modal-close').addEventListener('click', hideModal);
 
   document.getElementById('form-quarto').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -190,32 +131,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       if (editing) {
-        // PUT /quartos/<numero>
         await apiPut(`/quartos/${editing}`, payload);
       } else {
-        // POST /quartos
         await apiPost('/quartos', payload);
       }
-      closeModal();
-      await preencherTabelaQuartos();
+      hideModal();
+      carregarQuartos(1);
     } catch (err) {
       console.error('Erro ao salvar quarto', err);
-      alert('Erro ao salvar quarto: ' + (err.message || '')); 
+      alert('Erro ao salvar quarto: ' + (err.message || ''));
     }
   });
 
-  // delegação de eventos para botões de editar/apagar
-  document.querySelector('#table-quartos tbody').addEventListener('click', (ev) => {
+  // Delegação de eventos para tabela
+  document.querySelector('#table-quartos tbody').addEventListener('click', async (ev) => {
     const btn = ev.target.closest('button');
     if (!btn) return;
     const action = btn.dataset.action;
     const num = btn.dataset.num;
-    if (action === 'edit') editarQuarto(num);
-    if (action === 'delete') apagarQuarto(num);
+
+    if (action === 'edit') {
+      try {
+        const result = await apiGet('/quartos');
+        const quartos = Array.isArray(result) ? result : result.items || [];
+        const q = quartos.find(x => String(x.numero_quarto) === String(num));
+        if (!q) return alert('Quarto não encontrado');
+
+        document.getElementById('numero_quarto').value = q.numero_quarto;
+        document.getElementById('id_tipo').value = q.id_tipo || '';
+        document.getElementById('status_limpeza').value = q.status_limpeza || 'Sujo';
+        document.getElementById('localizacao').value = q.localizacao || '';
+        document.getElementById('editing_numero').value = q.numero_quarto;
+        document.getElementById('modal-title').innerText = 'Editar Quarto';
+        await popularSelectTipos();
+        showModal();
+      } catch (e) {
+        console.error(e);
+      }
+    } else if (action === 'delete') {
+      if (!confirm('Confirma a remoção do quarto ' + num + '?')) return;
+      try {
+        await apiDelete(`/quartos/${num}`);
+        carregarQuartos(1);
+      } catch (e) {
+        console.error(e);
+        alert('Erro ao apagar quarto');
+      }
+    }
   });
 
-  // inicializa tabela
-  preencherTabelaQuartos();
+  // Inicializa tabela
+  carregarQuartos();
 });
 </script>
 {% endblock %}

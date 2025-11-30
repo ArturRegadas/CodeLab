@@ -1,7 +1,179 @@
 {% extends 'base.html' %}
 {% block title %}Reservas - Estada Feliz{% endblock %}
+
 {% block content %}
-<h2>Reservas</h2>
-<button id="btn-nova-reserva">Nova Reserva</button>
-<table id="table-reservas"><thead><tr><th>ID</th><th>Hóspede</th><th>Quarto</th><th>Check-in</th><th>Check-out</th></tr></thead><tbody></tbody></table>
+<section class="page-header">
+  <h2>Reservas</h2>
+  <div class="actions">
+    <button id="btn-nova-reserva" class="btn primary">Nova Reserva</button>
+    <button id="btn-refresh-reservas" class="btn">Atualizar</button>
+  </div>
+</section>
+
+<section class="table-wrap">
+  <table id="table-reservas" class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Hóspede</th>
+        <th>Quarto</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Status</th>
+        <th>Valor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<!-- Modal: criar/editar reserva -->
+<div id="modal-reserva" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <button class="modal-close" id="modal-close-reserva">×</button>
+    <h3 id="modal-title-reserva">Nova Reserva</h3>
+    <form id="form-reserva">
+      <div class="form-row">
+        <label for="id_hospede">Hóspede</label>
+        <select id="id_hospede" name="id_hospede" required>
+          <option value="">Carregando...</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="numero_quarto">Quarto</label>
+        <select id="numero_quarto" name="numero_quarto">
+          <option value="">Nenhum</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="data_checkin">Check-in</label>
+        <input type="date" id="data_checkin" required />
+      </div>
+
+      <div class="form-row">
+        <label for="data_checkout">Check-out</label>
+        <input type="date" id="data_checkout" required />
+      </div>
+
+      <div class="form-row">
+        <label for="status_reserva">Status</label>
+        <select id="status_reserva">
+          <option>Pendente</option>
+          <option>Confirmada</option>
+          <option>Cancelada</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Salvar</button>
+        <button type="button" class="btn" id="cancel-reserva">Cancelar</button>
+      </div>
+
+      <input type="hidden" id="editing_id_reserva" value="" />
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/forms.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('modal-reserva');
+
+  async function carregar() {
+    try {
+      const r1 = await apiGet('/hospedes');
+      const r2 = await apiGet('/quartos');
+      const hospedes = Array.isArray(r1) ? r1 : r1.items || [];
+      const quartos = Array.isArray(r2) ? r2 : r2.items || [];
+      
+      const h_sel = document.getElementById('id_hospede');
+      const q_sel = document.getElementById('numero_quarto');
+      
+      h_sel.innerHTML = '<option value="">-- selecione hóspede --</option>';
+      hospedes.forEach(h => {
+        const o = document.createElement('option');
+        o.value = h.id_hospede;
+        o.textContent = h.nome_completo;
+        h_sel.appendChild(o);
+      });
+
+      q_sel.innerHTML = '<option value="">-- nenhum --</option>';
+      quartos.forEach(q => {
+        const o = document.createElement('option');
+        o.value = q.numero_quarto;
+        o.textContent = q.numero_quarto;
+        q_sel.appendChild(o);
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  document.getElementById('btn-nova-reserva').addEventListener('click', async () => {
+    await carregar();
+    document.getElementById('form-reserva').reset();
+    document.getElementById('editing_id_reserva').value = '';
+    document.getElementById('modal-title-reserva').innerText = 'Nova Reserva';
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+  });
+
+  document.getElementById('btn-refresh-reservas').addEventListener('click', () => carregarReservas(1));
+  document.getElementById('modal-close-reserva').addEventListener('click', () => {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+  });
+  document.getElementById('cancel-reserva').addEventListener('click', () => {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+  });
+
+  document.getElementById('form-reserva').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const editing = document.getElementById('editing_id_reserva').value;
+    const payload = {
+      id_hospede_principal: document.getElementById('id_hospede').value,
+      numero_quarto: document.getElementById('numero_quarto').value || null,
+      data_checkin: document.getElementById('data_checkin').value,
+      data_checkout: document.getElementById('data_checkout').value,
+      status_reserva: document.getElementById('status_reserva').value
+    };
+
+    try {
+      if (editing) {
+        await apiPut(`/reservas/${editing}`, payload);
+      } else {
+        await apiPost('/reservas', payload);
+      }
+      modal.style.display = 'none';
+      carregarReservas(1);
+    } catch (err) {
+      alert('Erro: ' + (err.message || 'Falha ao salvar'));
+    }
+  });
+
+  document.querySelector('#table-reservas tbody').addEventListener('click', async (ev) => {
+    const btn = ev.target.closest('button');
+    if (!btn) return;
+    if (btn.dataset.action === 'delete') {
+      if (confirm('Excluir?')) {
+        try {
+          await apiDelete(`/reservas/${btn.dataset.id}`);
+          carregarReservas(1);
+        } catch (e) {
+          alert('Erro ao excluir');
+        }
+      }
+    }
+  });
+
+  carregarReservas(1);
+});
+</script>
 {% endblock %}
